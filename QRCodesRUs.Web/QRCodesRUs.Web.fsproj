@@ -86,7 +86,7 @@
         <WebProjectProperties>
           <StartPageUrl>
           </StartPageUrl>
-          <StartAction>CurrentPage</StartAction>
+          <StartAction>NoStartPage</StartAction>
           <AspNetDebugging>True</AspNetDebugging>
           <SilverlightDebugging>False</SilverlightDebugging>
           <NativeDebugging>False</NativeDebugging>
@@ -107,6 +107,7 @@
   </ProjectExtensions>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="App_Start\NinjectWebCommon.fs" />
     <Content Include="Content\Site.css" />
     <None Include="Content\bootstrap-theme.min.css" />
     <None Include="Content\bootstrap-theme.css" />
@@ -135,6 +136,7 @@
     <Content Include="Views\Code\Index.cshtml" />
     <Content Include="Views\Code\CreateNewCode.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Compile Include="Ioc\Bindings.fs" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Compile Include="Global.asax.fs">
@@ -153,6 +155,18 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\packages\Ninject.Web.Common.3.0.0.7\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\packages\Ninject.MVC3.3.0.0.6\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -206,6 +220,10 @@
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Xml.Linq.dll" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
@@ -215,6 +233,11 @@
     <ProjectReference Include="..\QRCodesRUs.CodeGeneration\QRCodesRUs.CodeGeneration.fsproj">
       <Name>QRCodesRUs.CodeGeneration</Name>
       <Project>{8d106f3a-5e0e-45d9-8a6e-09d207f0a87e}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\QRCodesRUs.Web.Model\QRCodesRUs.Web.Model.fsproj">
+      <Name>QRCodesRUs.Web.Model</Name>
+      <Project>{372e972a-e0a0-4792-bf5a-a3f22ac39b00}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\QRCodesRUs.Web.ViewModels\QRCodesRUs.Web.ViewModels.fsproj">

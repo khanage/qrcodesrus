@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DD9B3E
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.Web.ViewModels", "QRCodesRUs.Web.ViewModels\QRCodesRUs.Web.ViewModels.fsproj", "{40DBAF50-B3EA-4D06-818D-13C6DB10F356}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.Web.Model", "QRCodesRUs.Web.Model\QRCodesRUs.Web.Model.fsproj", "{372E972A-E0A0-4792-BF5A-A3F22AC39B00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{40DBAF50-B3EA-4D06-818D-13C6DB10F356}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40DBAF50-B3EA-4D06-818D-13C6DB10F356}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40DBAF50-B3EA-4D06-818D-13C6DB10F356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{372E972A-E0A0-4792-BF5A-A3F22AC39B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{372E972A-E0A0-4792-BF5A-A3F22AC39B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{372E972A-E0A0-4792-BF5A-A3F22AC39B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{372E972A-E0A0-4792-BF5A-A3F22AC39B00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

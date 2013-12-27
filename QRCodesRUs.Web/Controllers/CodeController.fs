@@ -13,17 +13,24 @@ open QRCodesRUs.CodeGeneration
 type CodeController() =
     inherit Controller()
 
+    let createTempImageFor (code: string) =
+        async {
+            let path = System.IO.Path.GetTempFileName()
+            
+            use file = System.IO.File.OpenWrite path
+
+            let! bitmap = QrGenerator.createCodeForText code
+
+            do! QrGenerator.writeBitmapToFile file bitmap    
+            
+            return path          
+        }
+
     member this.Index () = this.View()
 
     [<HttpPost>]
-    member this.CreateNewCode(vm: CodeIndexViewModel)
-        = let path = System.IO.Path.GetTempFileName()
-          let file = System.IO.File.OpenWrite path
-
-          let bitmap = QrGenerator.createCodeForText vm.UserCode
-
-          QrGenerator.writeBitmapToFile file bitmap
-
-          file.Close()
-
-          new FileStreamResult(System.IO.File.OpenRead path, "image/png")
+    member this.CreateNewCode(vm: CodeIndexViewModel) =
+        async {
+            let! path = createTempImageFor vm.UserCode            
+            return new FileStreamResult(System.IO.File.OpenRead path, "image/png")
+        } |> Async.StartAsTask
