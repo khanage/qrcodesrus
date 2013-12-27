@@ -1,0 +1,16 @@
+@model QRCodesRUs.Web.ViewModels.CodeIndexViewModel
+
+<div class="jumbotron">
+    <h1>Code generation</h1>
+    <p class="lead">
+        Welcome to the wonders of code generation
+    </p>
+    @using (Html.BeginForm("CreateNewCode", "Code"))
+    {
+        <p>this is a from</p>
+        
+        @Html.TextBoxFor(m => m.UserCode)
+        
+        <input type="submit" value="Generate!"/>
+    }
+</div>
