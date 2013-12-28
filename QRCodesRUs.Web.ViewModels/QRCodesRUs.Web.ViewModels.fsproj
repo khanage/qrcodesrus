@@ -38,12 +38,22 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeIndexViewModel.fs" />
     <Compile Include="CodeCreateNewCodeViewModel.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QRCodesRUs.Web.Model\QRCodesRUs.Web.Model.fsproj">
+      <Name>QRCodesRUs.Web.Model</Name>
+      <Project>{372e972a-e0a0-4792-bf5a-a3f22ac39b00}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

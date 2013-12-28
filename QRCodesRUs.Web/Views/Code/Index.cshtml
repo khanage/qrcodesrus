@@ -1,16 +1,30 @@
 @model QRCodesRUs.Web.ViewModels.CodeIndexViewModel
 
 <div class="jumbotron">
-    <h1>Code generation</h1>
+    <h1>Generate a new password qr code</h1>
     <p class="lead">
-        Welcome to the wonders of code generation
+        Use this to create a QR code of your wifi password.
     </p>
-    @using (Html.BeginForm("CreateNewCode", "Code"))
+</div>
+
+<div>
+    <p class="caption">
+        Please note that while we obviuously have your password stored in the qr code that generate,
+        we do not have your wifi name, so we can't use this to gain access to your network.
+    </p>
+
+    @using (Html.BeginForm("Index", "Code", null, FormMethod.Post, new {role = "form"}))
     {
-        <p>this is a from</p>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PageType, "Select a print size")
+            @Html.DropDownListFor(m => m.PageType, Model.AllPageSizes, new {@class = "form-control"})
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.PageType, "Enter your password here")
+            @Html.TextBoxFor(m => m.UserCode, new {@class = "form-control"})
+            @Html.ValidationMessageFor(m => m.UserCode)
+        </div>
         
-        @Html.TextBoxFor(m => m.UserCode)
-        
-        <input type="submit" value="Generate!"/>
+        <button type="submit" class="btn btn-default">Generate!</button>
     }
 </div>

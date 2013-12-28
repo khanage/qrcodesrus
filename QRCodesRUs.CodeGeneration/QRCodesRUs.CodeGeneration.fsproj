@@ -63,8 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="QrGenerator.fs" />
-    <None Include="packages.config" />
+    <Compile Include="QrCodeCreator.fs" />
+    <Compile Include="QrCodeRepository.fs" />
     <None Include="zxing.fsx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

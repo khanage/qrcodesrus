@@ -9,7 +9,7 @@ open System.Web.Mvc.Ajax
 
 open QRCodesRUs.Web.Model
 
-type HomeController(item: Thing) =
+type HomeController() =
     inherit Controller()
-    member this.Index () = this.View(item)
+    member this.Index () = this.View()
 

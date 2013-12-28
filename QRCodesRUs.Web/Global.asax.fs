@@ -1,3 +1,4 @@
+#nowarn "20"
 namespace QRCodesRUs.Web
 
 open System
@@ -52,6 +53,13 @@ type Global() =
 
     static member RegisterRoutes(routes:RouteCollection) =
         routes.IgnoreRoute("{resource}.axd/{*pathInfo}")
+
+        routes.MapRoute(
+            "GetQRCodeById",
+            "generatedcodes/{id}",
+            { controller = "Code"; action = "ItemById"; id = UrlParameter.Optional }
+        ) |> ignore
+        
         routes.MapRoute(
             "Default", // Route name
             "{controller}/{action}/{id}", // URL with parameters

@@ -10,9 +10,9 @@ open Ninject.Syntax
 
 type NinjectWebCommon() =
     static let bootstrapper = new Bootstrapper()
-         
-    // Just load all the modules
-    static member RegisterServices (kernel: IKernel) = kernel.Load(System.Reflection.Assembly.GetExecutingAssembly())
+    
+    static member RegisterServices (kernel: IKernel) = 
+        kernel.Load(System.Reflection.Assembly.GetExecutingAssembly())
 
     static member CreateKernel() =
         let kernel = new StandardKernel() :> IKernel

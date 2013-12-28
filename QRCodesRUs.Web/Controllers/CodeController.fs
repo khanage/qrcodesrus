@@ -1,36 +1,34 @@
 ﻿namespace QRCodesRUs.Web.Controllers
 
 open System
-open System.Collections.Generic
-open System.Linq
-open System.Web
 open System.Web.Mvc
-open System.Web.Mvc.Ajax
-
+open System.Web.Routing
+open FSharpx
+open FSharpx.Option
+open QRCodesRUs.Web.Model
 open QRCodesRUs.Web.ViewModels
 open QRCodesRUs.CodeGeneration
 
-type CodeController() =
+type CodeController(repository: QrCodeRepository) =
     inherit Controller()
+    
+    let hasValidData (vm: CodeIndexViewModel) = 
+        let width, height = PageSizeData.dimensionsForSize vm.PageType |> Option.get
 
-    let createTempImageFor (code: string) =
-        async {
-            let path = System.IO.Path.GetTempFileName()
-            
-            use file = System.IO.File.OpenWrite path
+        let id = repository.CreateNew vm.UserCode width height
+        let routeDictionary = new RouteValueDictionary(new Map<_,_> [|"id", id :> obj|])
 
-            let! bitmap = QrGenerator.createCodeForText code
-
-            do! QrGenerator.writeBitmapToFile file bitmap    
-            
-            return path          
-        }
-
-    member this.Index () = this.View()
+        RedirectToRouteResult("GetQRCodeById", routeDictionary) :> ActionResult
+        
+    member x.Index () = x.View(CodeIndexViewModel())
 
     [<HttpPost>]
-    member this.CreateNewCode(vm: CodeIndexViewModel) =
-        async {
-            let! path = createTempImageFor vm.UserCode            
-            return new FileStreamResult(System.IO.File.OpenRead path, "image/png")
-        } |> Async.StartAsTask
+    member x.Index(vm: CodeIndexViewModel) =
+        if x.ModelState.IsValid
+        then hasValidData vm
+        else x.View(vm) :> ActionResult
+
+    member x.ItemById(id: QrCodeId) =
+        repository.GetById id 
+     |> Async.map (fun result -> new FileStreamResult(result, "image/png") :> ActionResult) 
+     |> Async.StartAsTask

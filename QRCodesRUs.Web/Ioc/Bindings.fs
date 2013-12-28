@@ -5,12 +5,14 @@
 namespace QRCodesRUs.Web
 
 open QRCodesRUs.Web.Model
+open QRCodesRUs.CodeGeneration
 
 type Bindings() =
     inherit Ninject.Modules.NinjectModule()
 
     override x.Load() =
-        x.Kernel.Bind<Thing>().To<Implementation>()
+        x.Kernel.Bind<QrCodeCreator>().To<QrCodeCreatorImplementation>()
+        x.Kernel.Bind<QrCodeRepository>().To<InMemoryQrCodeRepository>().InSingletonScope()
         ()
 
 
