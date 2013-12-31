@@ -11,5 +11,5 @@ open QRCodesRUs.Web.Model
 
 type HomeController() =
     inherit Controller()
-    member this.Index () = this.View()
 
+    member this.Index () = this.View()

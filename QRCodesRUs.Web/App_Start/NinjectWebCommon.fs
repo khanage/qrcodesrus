@@ -7,6 +7,17 @@ open Ninject
 open Ninject.Web.Common
 open Ninject.Web.Mvc
 open Ninject.Syntax
+open WebApiContrib.IoC
+open Microsoft.Practices.ServiceLocation
+
+type NinjectServiceLocator(kernel: IResolutionRoot) =
+    inherit ServiceLocatorImplBase()
+
+    override x.DoGetInstance(serviceType: Type, key: string) = 
+        kernel.Get(serviceType, key)
+
+    override x.DoGetAllInstances(ofType: Type) =
+        kernel.GetAll ofType
 
 type NinjectWebCommon() =
     static let bootstrapper = new Bootstrapper()
@@ -28,6 +39,11 @@ type NinjectWebCommon() =
 
         // Set the MVC dependency resolver
         Mvc.DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel :> IResolutionRoot))
+        // Set the WebApi dependency resolver
+        Http.GlobalConfiguration.Configuration.DependencyResolver <- new Ninject.NinjectResolver(kernel)
+
+        // Setup service location
+        ServiceLocator.SetLocatorProvider(ServiceLocatorProvider(fun () -> new NinjectServiceLocator(kernel :> IResolutionRoot) :> IServiceLocator))
 
         kernel
 
@@ -39,7 +55,7 @@ type NinjectWebCommon() =
     static member Stop() =
         bootstrapper.ShutDown()
         
-module AssemblyDummy =
+module NinjectAssemblyLevelAttributes =
     [<assembly: WebActivator.PreApplicationStartMethod(typeof<NinjectWebCommon>, "Start")>]
     [<assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof<NinjectWebCommon>, "Stop")>]
     do ()
