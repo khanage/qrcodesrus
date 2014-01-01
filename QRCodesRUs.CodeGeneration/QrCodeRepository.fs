@@ -2,26 +2,34 @@
 
 open System
 open System.IO
+open System.Threading.Tasks
 open System.Collections.Generic
 open FSharpx
 
 type QrCodeId = Guid
 
 type QrCodeRepository =
-    abstract member GetById: QrCodeId -> Stream Async
+    abstract member GetById: QrCodeId -> Stream Option Async
     abstract member CreateNew: string -> int -> int -> QrCodeId
 
 type InMemoryQrCodeRepository(creator: QrCodeCreator) =
-    let dict = new Dictionary<QrCodeId,IO.Stream>()
+    let dict = new Dictionary<QrCodeId,Task<Stream>>()
 
     interface QrCodeRepository with
-        member x.GetById id = Async.returnM <| dict.[id]
+        member x.GetById id = 
+            async {
+                match dict.TryGetValue(id) with
+                | (true, taskStream) -> 
+                    let! s = Async.AwaitTask taskStream
+                    return Some(s)
+                | otherwise          -> 
+                    return None
+            }
 
         member x.CreateNew text width height =
             let id = Guid.NewGuid()
+            let asyncCreation = creator.CreateCodeForText text width height 
 
-            let stream = creator.CreateCodeForText text width height 
-                      |> Async.RunSynchronously
-
-            dict.[id] <- stream
+            dict.[id] <- Async.StartAsTask <| asyncCreation
+            
             id
