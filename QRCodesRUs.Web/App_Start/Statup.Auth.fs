@@ -13,9 +13,9 @@ type StartupAuth() =
             LoginPath = new PathString("/Account/Login")
         ) |> ignore
 
-        app.UseGoogleAuthentication() |> ignore
-
         app.UseExternalSignInCookie DefaultAuthenticationTypes.ExternalCookie
+
+        app.UseGoogleAuthentication() |> ignore
 
 
 module AuthAssemblyLevelAttributes =
