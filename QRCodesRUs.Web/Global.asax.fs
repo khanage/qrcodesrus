@@ -11,7 +11,11 @@ open System.Web.Optimization
 
 type BundleConfig() =
     static member RegisterBundles (bundles:BundleCollection) =
-        bundles.Add(ScriptBundle("~/bundles/jquery").Include([|"~/Scripts/jquery-{version}.js"|]))
+
+        bundles.UseCdn <- true
+
+        bundles.Add(ScriptBundle("~/bundles/jquery", "http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js")
+                        .Include([|"~/Scripts/jquery-{version}.js"|]))
 
         // Use the development version of Modernizr to develop with and learn from. Then, when you're
         // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

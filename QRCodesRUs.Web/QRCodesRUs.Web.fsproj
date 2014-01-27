@@ -109,11 +109,14 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="App_Start\NinjectWebCommon.fs" />
     <Compile Include="App_Start\Statup.Auth.fs" />
+    
     <Content Include="Content\Site.css" />
+    
     <None Include="Content\bootstrap-theme.min.css" />
     <None Include="Content\bootstrap-theme.css" />
     <None Include="Content\bootstrap.min.css" />
     <None Include="Content\bootstrap.css" />
+    
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -123,15 +126,18 @@
     <Content Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\respond.js" />
+    
     <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="fonts\glyphicons-halflings-regular.ttf" />
     <None Include="fonts\glyphicons-halflings-regular.svg" />
     <None Include="fonts\glyphicons-halflings-regular.eot" />
+    
     <Compile Include="Controllers\HomeController.fs" />
     <Compile Include="Controllers\ValuesController.fs" />
     <Compile Include="Controllers\CodeController.fs" />
     <Compile Include="Controllers\AccountController.fs" />
-    <Content Include="Views\Web.config" />
+    <Compile Include="Controllers\ReminderController.fs" />
+
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
@@ -141,18 +147,27 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    
     <Content Include="Views\Code\Index.cshtml" />
+    
     <Content Include="Views\Home\Index.cshtml" />
+
+    <Content Include="Views\Reminder\Index.cshtml" />
+    
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <None Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
+    
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Web.config" />
+    
     <Compile Include="Ioc\Bindings.fs" />
-    <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Compile Include="Global.asax.fs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    
+    <Content Include="Web.config" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
