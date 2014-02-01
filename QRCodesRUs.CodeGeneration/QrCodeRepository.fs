@@ -5,12 +5,13 @@ open System.IO
 open System.Threading.Tasks
 open System.Collections.Generic
 open FSharpx
+open QRCodesRUs.Core
 
 type QrCodeId = Guid
 
 type QrCodeRepository =
     abstract member GetById: QrCodeId -> Stream Option Async
-    abstract member CreateNew: string -> int -> int -> QrCodeId
+    abstract member CreateNew: text: string -> width: int -> height: int -> QrCodeId
 
 type InMemoryQrCodeRepository(creator: QrCodeCreator) =
     let dict = new Dictionary<QrCodeId,Task<Stream>>()
@@ -19,10 +20,19 @@ type InMemoryQrCodeRepository(creator: QrCodeCreator) =
         member x.GetById id = 
             async {
                 match dict.TryGetValue(id) with
-                | (true, taskStream) -> 
-                    let! s = Async.AwaitTask taskStream
-                    return Some(s)
-                | otherwise          -> 
+                | true, taskStream -> 
+                    let! stream = Async.AwaitTask taskStream
+
+                    stream.Seek(0L, SeekOrigin.Begin) |> ignore
+
+                    let clone = new MemoryStream()
+                    
+                    do! stream.CopyToAsync(clone) |> Task.toAsync_
+                     
+                    clone.Seek(0L, SeekOrigin.Begin) |> ignore
+                        
+                    return Some(clone :> Stream)
+                | otherwise        -> 
                     return None
             }
 

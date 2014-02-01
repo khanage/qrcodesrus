@@ -13,7 +13,7 @@ type CodeController(repository: QrCodeRepository) =
     inherit Controller()
     
     let redirectToItemPage (vm: CodeIndexViewModel) =
-        let width, height = PageSizeData.dimensionsForSize vm.PageType |> Option.get
+        let width, height = PageSizeData.dimensionsForSize PageSize.A4 |> Option.get
 
         let id = repository.CreateNew vm.UserCode width height
         let routeDictionary = new RouteValueDictionary(new Map<_,_> [|"id", id :> obj|])

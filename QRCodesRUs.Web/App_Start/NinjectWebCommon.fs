@@ -7,8 +7,9 @@ open Ninject
 open Ninject.Web.Common
 open Ninject.Web.Mvc
 open Ninject.Syntax
-open WebApiContrib.IoC
+open WebApiContrib.IoC.Ninject
 open Microsoft.Practices.ServiceLocation
+open System.Web.Http.Dependencies
 
 type NinjectServiceLocator(kernel: IResolutionRoot) =
     inherit ServiceLocatorImplBase()
@@ -18,6 +19,15 @@ type NinjectServiceLocator(kernel: IResolutionRoot) =
 
     override x.DoGetAllInstances(ofType: Type) =
         kernel.GetAll ofType
+
+type NinjectWebApiDependencyResolver(kernel: IResolutionRoot) =
+    interface IDependencyScope with
+        member x.GetService(t: Type) = kernel.Get(t, [||])
+        member x.GetServices(t: Type) = kernel.GetAll(t, [||])
+        member x.Dispose() = ()
+
+    interface IDependencyResolver with
+        member x.BeginScope(): IDependencyScope = x :> _
 
 type NinjectWebCommon() =
     static let bootstrapper = new Bootstrapper()
@@ -40,7 +50,7 @@ type NinjectWebCommon() =
         // Set the MVC dependency resolver
         Mvc.DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel :> IResolutionRoot))
         // Set the WebApi dependency resolver
-        Http.GlobalConfiguration.Configuration.DependencyResolver <- new Ninject.NinjectResolver(kernel)
+        Http.GlobalConfiguration.Configuration.DependencyResolver <- new NinjectResolver(kernel)
 
         // Setup service location
         ServiceLocator.SetLocatorProvider(ServiceLocatorProvider(fun () -> new NinjectServiceLocator(kernel :> IResolutionRoot) :> IServiceLocator))

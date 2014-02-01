@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.Web", "QRCodesRUs.Web\QRCodesRUs.Web.fsproj", "{75C1E13A-034B-4CAB-9B9B-CAE1D74DBFFA}"
 EndProject
@@ -21,6 +21,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRCodesRUs.WebHacks", "QRCodesRUs.WebHacks\QRCodesRUs.WebHacks.csproj", "{3D314808-BA8D-4611-9729-F7F676E9B92F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reference", "Reference\Reference.csproj", "{F84CFDD4-9E5E-4175-9901-D71D3C96A193}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.Core", "QRCodesRUs.Core\QRCodesRUs.Core.fsproj", "{95F73A01-AD8B-4E6F-9219-A1063371A76F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{F84CFDD4-9E5E-4175-9901-D71D3C96A193}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F84CFDD4-9E5E-4175-9901-D71D3C96A193}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F84CFDD4-9E5E-4175-9901-D71D3C96A193}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F73A01-AD8B-4E6F-9219-A1063371A76F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F73A01-AD8B-4E6F-9219-A1063371A76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F73A01-AD8B-4E6F-9219-A1063371A76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F73A01-AD8B-4E6F-9219-A1063371A76F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
