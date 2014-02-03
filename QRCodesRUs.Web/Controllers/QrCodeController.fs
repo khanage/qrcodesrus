@@ -8,9 +8,9 @@ open System.Net
 open System.Net.Http
 open System.Web.Http
 open System.Net.Http.Formatting
-open System.Web.Mvc
 open System.Web.Http.Results
 open System.Net.Http.Headers
+open System.Web.Http.ModelBinding
 open FSharpx
 open QRCodesRUs.Web
 open QRCodesRUs.Web.Model
@@ -39,11 +39,10 @@ type ImageResult(imageStream: IO.Stream, ?contentType: MediaTypeHeaderValue) =
 
 
 /// Retrieves images.
-[<RoutePrefix("codes")>]
-type CodesController(repository: QrCodeRepository) =
+type QrCodeController(repository: QrCodeRepository) =
     inherit ApiController()
     
-    member x.Get ([<ModelBinder(typeof<QrCodeIdModelBinder>)>]id: QrCodeId) : IHttpActionResult =
+    member x.Get ([<ModelBinder(typeof<QrCodeIdHttpModelBinder>)>]id: QrCodeId) : IHttpActionResult =
         repository.GetById id 
      |> Async.map (function
         | Some(imageStream) -> 

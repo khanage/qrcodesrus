@@ -15,6 +15,25 @@ module Option =
 module Monads =
     let option = Option.MaybeBuilder()
 
+type QrCodeIdHttpModelBinder() =
+
+    interface System.Web.Http.ModelBinding.IModelBinder with
+        member x.BindModel(actionContext, bindingContext) =
+            
+            if typeof<QrCodeId>.IsAssignableFrom(bindingContext.ModelType) 
+            then 
+                option {
+                    let! idValue = bindingContext.ValueProvider.GetValue "id" |> Option.ofNull
+                    let! guid = idValue.RawValue.ToString()
+                             |> Option.fromTryPattern Guid.TryParse
+
+                    bindingContext.Model <- new QrCodeId(guid)
+
+                    return true
+                } |> Option.getOrDefault
+            else false
+    
+
 type QrCodeIdModelBinder() = 
     inherit DefaultModelBinder()
 
@@ -36,23 +55,6 @@ type QrCodeIdModelBinder() =
             return new QrCodeId(guid) :> obj
         } 
      |> Option.getOrElseF callBase
-
-
-    interface System.Web.Http.ModelBinding.IModelBinder with
-        member x.BindModel(actionContext, bindingContext) =
-            
-            if typeof<QrCodeId>.IsAssignableFrom(bindingContext.ModelType) 
-            then 
-                option {
-                    let! idValue = bindingContext.ValueProvider.GetValue "id" |> Option.ofNull
-                    let! guid = idValue.RawValue.ToString()
-                             |> Option.fromTryPattern Guid.TryParse
-
-                    bindingContext.Model <- new QrCodeId(guid)
-
-                    return true
-                } |> Option.getOrDefault
-            else false
 
     interface IModelBinderProvider with
         member x.GetBinder(t: Type) =

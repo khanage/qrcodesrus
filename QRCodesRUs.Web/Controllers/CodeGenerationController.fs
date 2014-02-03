@@ -10,7 +10,7 @@ open QRCodesRUs.Web.ViewModels
 open QRCodesRUs.CodeGeneration
 open QRCodesRUs.Web.Model
 
-type CodeController(repository: QrCodeRepository) =
+type CodeGenerationController(repository: QrCodeRepository) =
     inherit Controller()
     
     let redirectToItemPage (vm: CodeIndexViewModel) =

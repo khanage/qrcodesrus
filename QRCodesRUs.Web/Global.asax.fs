@@ -78,14 +78,14 @@ type Global() =
         config.Routes.MapHttpRoute(
             "Image",
             "qrcode/{id}",
-            { controller = "Codes"; id = RouteParameter.Optional }
+            { controller = "QrCode"; id = RouteParameter.Optional }
         ) |> ignore
         // Additional Web API settings
         config.Services.Add(typeof<System.Web.Http.ValueProviders.ValueProviderFactory>, 
             { new System.Web.Http.ValueProviders.ValueProviderFactory() with 
                 member x.GetValueProvider context = new QrCodeIdValueProvider(context) :> System.Web.Http.ValueProviders.IValueProvider 
             })
-        config.Services.Insert(typeof<Http.ModelBinding.ModelBinderProvider>, 0, new System.Web.Http.ModelBinding.Binders.SimpleModelBinderProvider(typeof<QrCodeId>, new QrCodeIdModelBinder()))
+        config.Services.Insert(typeof<Http.ModelBinding.ModelBinderProvider>, 0, new System.Web.Http.ModelBinding.Binders.SimpleModelBinderProvider(typeof<QrCodeId>, new QrCodeIdHttpModelBinder()))
 
         ()
 
@@ -98,7 +98,7 @@ type Global() =
         routes.MapRoute(
             "GetQRCodeById",
             "generatedcodes/{id}",
-            { controller = "Code"; action = "ItemById"; id = UrlParameter.Optional }
+            { controller = "CodeGeneration"; action = "ItemById"; id = UrlParameter.Optional }
         ) |> ignore
 
         routes.MapRoute(

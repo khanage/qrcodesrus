@@ -75,7 +75,7 @@
       </FlavorProperties>
       <FlavorProperties Guid="{349c5851-65df-11da-9384-00065b846f21}" User="">
         <WebProjectProperties>
-          <StartPageUrl>Code</StartPageUrl>
+          <StartPageUrl>CodeGeneration</StartPageUrl>
           <StartAction>SpecificPage</StartAction>
           <AspNetDebugging>True</AspNetDebugging>
           <SilverlightDebugging>False</SilverlightDebugging>
@@ -125,8 +125,8 @@
     <Content Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
     <Compile Include="Controllers\HomeController.fs" />
-    <Compile Include="Controllers\ValuesController.fs" />
-    <Compile Include="Controllers\CodeController.fs" />
+    <Compile Include="Controllers\QrCodeController.fs" />
+    <Compile Include="Controllers\CodeGenerationController.fs" />
     <Compile Include="Controllers\AccountController.fs" />
     <Compile Include="Controllers\ReminderController.fs" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
@@ -138,8 +138,8 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Code\Index.cshtml" />
-    <Content Include="Views\Code\ItemById.cshtml" />
+    <Content Include="Views\CodeGeneration\Index.cshtml" />
+    <Content Include="Views\CodeGeneration\ItemById.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Reminder\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

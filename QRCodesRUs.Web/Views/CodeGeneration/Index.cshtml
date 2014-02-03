@@ -6,11 +6,11 @@
         Use this to create a QR code of your wifi password.
     </p>
     <p class="caption">
-        Please note that while we obviuously have your password stored in the qr code that generate,
+        Please note that while we obviously have your password stored in the qr code that we generate,
         we do not have your wifi name, so we can't use this to gain access to your network.
     </p>
 
-    @using (Html.BeginForm("Index", "Code", null, FormMethod.Post, new {role = "form"}))
+    @using (Html.BeginForm("Index", "CodeGeneration", null, FormMethod.Post, new {role = "form"}))
     {
         <div class="form-group">
             @Html.LabelFor(m => m.UserCode, "Enter your password here")
