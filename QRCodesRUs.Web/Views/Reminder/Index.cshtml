@@ -1,1 +1,101 @@
-﻿Hello world
+﻿<style type="text/css">
+    .date-span-selection {
+        border-left: 3px solid #008080;
+        background-color: #eee;
+        font-size: x-large;
+    }
+
+    #date-span-selection-value {
+        background-color: greenyellow;
+        border-bottom: 1px solid blue;
+    }
+
+    #date-span-selection-unit {
+        background-color: beige;
+        border-bottom: 1px solid blue;
+    }
+
+    #date-span-selection-value-input {
+        display: none;
+    } 
+    
+    #date-span-selection-unit-select {
+        display: none;
+    }
+</style>
+
+@using (Html.BeginForm("Index", "Reminder", null, FormMethod.Post, new { role = "form" }))
+{
+    <div class="date-span-selection">
+        Send me a reminder in
+        <span id="date-span-selection-value">3</span>
+        <input id="date-span-selection-value-input" type="number" value="3">
+
+        <span id="date-span-selection-unit">months</span>
+        
+        <select id="date-span-selection-unit-select">
+            <option value="Day">days</option>
+            <option selected value="Month">months</option>
+        </select>
+
+        <br />
+        <button type="submit" class="btn btn-default">Save reminder</button>
+    </div>
+}
+
+<script type="text/javascript">
+    window.onload = function () {
+        (function ($) {
+
+            var createMappingFunctions = function(displayFieldSelector, editFieldSelector, projectDisplayText) {
+                var display = $(displayFieldSelector);
+                var edit = $(editFieldSelector);
+
+                return {
+                    shownHandler: function (e) {
+                        display.hide();
+                        edit.show();
+                    },
+                    hiddenHandler: function (e) {
+                        edit.hide();
+                        display.show();
+                    },
+                    changeHandler: function(e) {
+                        display.text(projectDisplayText(edit));
+                    }
+                };
+            };
+
+            var valueEditingFunctions = createMappingFunctions(
+                '#date-span-selection-value',
+                '#date-span-selection-value-input',
+                function(input) {
+                     return input.val();
+                }
+            );
+
+            var unitEditingFunctions = createMappingFunctions(
+                '#date-span-selection-unit',
+                '#date-span-selection-unit-select',
+                function(select) {
+                     return select.find('option:selected').text();
+                }
+            );
+
+            $('#date-span-selection-value')
+                .click(valueEditingFunctions.shownHandler);
+
+            $('#date-span-selection-value-input')
+                .blur(valueEditingFunctions.hiddenHandler)
+                .change(valueEditingFunctions.changeHandler);
+
+            $('#date-span-selection-unit')
+                .click(unitEditingFunctions.shownHandler);
+
+            $('#date-span-selection-unit-select')
+                .blur(unitEditingFunctions.hiddenHandler)
+                .change(unitEditingFunctions.changeHandler);
+
+        })(jQuery);
+    };
+</script>
