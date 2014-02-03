@@ -68,6 +68,18 @@
     <None Include="zxing.fsx" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QRCodesRUs.Core\QRCodesRUs.Core.fsproj">
+      <Name>QRCodesRUs.Core</Name>
+      <Project>{95f73a01-ad8b-4e6f-9219-a1063371a76f}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\QRCodesRUs.Web.Model\QRCodesRUs.Web.Model.fsproj">
+      <Name>QRCodesRUs.Web.Model</Name>
+      <Project>{372e972a-e0a0-4792-bf5a-a3f22ac39b00}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>

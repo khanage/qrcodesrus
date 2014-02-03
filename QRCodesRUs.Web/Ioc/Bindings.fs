@@ -5,7 +5,11 @@
 namespace QRCodesRUs.Web
 
 open QRCodesRUs.Web.Model
+open QRCodesRUs.Web.Controllers
 open QRCodesRUs.CodeGeneration
+open QRCodesRUs.WebHacks.Models
+
+open Microsoft.AspNet.Identity
 
 type Bindings() =
     inherit Ninject.Modules.NinjectModule()
@@ -13,6 +17,6 @@ type Bindings() =
     override x.Load() =
         x.Kernel.Bind<QrCodeCreator>().To<QrCodeCreatorImplementation>()
         x.Kernel.Bind<QrCodeRepository>().To<InMemoryQrCodeRepository>().InSingletonScope()
+        //x.Kernel.Bind<IUserStore<ApplicationUser>>().To<QRCodesRUs.WebHacks.Controllers.UserManager<ApplicationUser>>().InSingletonScope()
+        //x.Kernel.Bind<UserRepository<ApplicationUser>>().To<HardcodedUserRepository<ApplicationUser>>().InSingletonScope()
         ()
-
-
