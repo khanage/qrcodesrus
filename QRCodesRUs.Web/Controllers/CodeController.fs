@@ -8,6 +8,7 @@ open FSharpx.Option
 open QRCodesRUs.Web.Model
 open QRCodesRUs.Web.ViewModels
 open QRCodesRUs.CodeGeneration
+open QRCodesRUs.Web.Model
 
 type CodeController(repository: QrCodeRepository) =
     inherit Controller()
@@ -16,7 +17,7 @@ type CodeController(repository: QrCodeRepository) =
         let width, height = PageSizeData.dimensionsForSize PageSize.A4 |> Option.get
 
         let id = repository.CreateNew vm.UserCode width height
-        let routeDictionary = new RouteValueDictionary(new Map<_,_> [|"id", id :> obj|])
+        let routeDictionary = new RouteValueDictionary(new Map<_,_> [|"id", id.Id :> obj|])
 
         RedirectToRouteResult("GetQRCodeById", routeDictionary) :> ActionResult
 
@@ -30,8 +31,4 @@ type CodeController(repository: QrCodeRepository) =
             
 
     member x.ItemById(id: QrCodeId) =
-        repository.GetById id 
-     |> Async.map (function
-        | Some(result) -> new FileStreamResult(result, "image/png")             :> ActionResult
-        | None         -> new HttpStatusCodeResult(Net.HttpStatusCode.NotFound) :> ActionResult)
-     |> Async.StartAsTask
+        x.View(new QrCodeDisplayViewModel(id)) :> ActionResult

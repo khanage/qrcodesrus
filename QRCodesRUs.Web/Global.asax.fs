@@ -9,6 +9,10 @@ open System.Web.Mvc
 open System.Web.Routing
 open System.Web.Optimization
 
+open System.Net.Http.Formatting
+open QRCodesRUs.Web.Model
+open FSharpx
+
 type BundleConfig() =
     static member RegisterBundles (bundles:BundleCollection) =
 
@@ -35,9 +39,30 @@ type Route = {
     action : string
     id : UrlParameter }
 
-type HttpRoute = {
+type ControllerAndId = {
     controller : string
     id : RouteParameter }
+
+type HomeControllerRoute = {
+    hController : string
+    hAction : string
+}
+
+type ImageRoute = {
+    imageController : string
+}
+    
+type QrCodeIdValueProvider(context: System.Web.Http.Controllers.HttpActionContext) =
+    let parameters = context.Request.GetRouteData().Values
+
+    interface System.Web.Http.ValueProviders.IValueProvider with
+        member x.ContainsPrefix(prefix) =
+            parameters.ContainsKey prefix
+
+        member x.GetValue(key) =
+            Option.fromTryPattern parameters.TryGetValue key 
+         |> Option.map (fun value -> ValueProviders.ValueProviderResult(value, key, Globalization.CultureInfo.CurrentCulture))
+         |> Option.getOrDefault
 
 type Global() =
     inherit System.Web.HttpApplication() 
@@ -46,11 +71,23 @@ type Global() =
         // Configure routing
         config.MapHttpAttributeRoutes()
         config.Routes.MapHttpRoute(
-            "DefaultApi", // Route name
-            "api/{controller}/{id}", // URL with parameters
-            { controller = "{controller}"; id = RouteParameter.Optional } // Parameter defaults
+            "DefaultApi",
+            "api/{controller}/{id}"
+        ) |> ignore
+
+        config.Routes.MapHttpRoute(
+            "Image",
+            "qrcode/{id}",
+            { controller = "Codes"; id = RouteParameter.Optional }
         ) |> ignore
         // Additional Web API settings
+        config.Services.Add(typeof<System.Web.Http.ValueProviders.ValueProviderFactory>, 
+            { new System.Web.Http.ValueProviders.ValueProviderFactory() with 
+                member x.GetValueProvider context = new QrCodeIdValueProvider(context) :> System.Web.Http.ValueProviders.IValueProvider 
+            })
+        config.Services.Insert(typeof<Http.ModelBinding.ModelBinderProvider>, 0, new System.Web.Http.ModelBinding.Binders.SimpleModelBinderProvider(typeof<QrCodeId>, new QrCodeIdModelBinder()))
+
+        ()
 
     static member RegisterFilters(filters: GlobalFilterCollection) =
         filters.Add(new HandleErrorAttribute())
@@ -63,14 +100,21 @@ type Global() =
             "generatedcodes/{id}",
             { controller = "Code"; action = "ItemById"; id = UrlParameter.Optional }
         ) |> ignore
+
+        routes.MapRoute(
+            "DefaultWeb",
+            "{controller}/{action}/{id}",
+            { controller = "Home"; action = "Index"; id = UrlParameter.Optional}
+        ) |> ignore
         
         routes.MapRoute(
-            "Default", // Route name
-            "{controller}/{action}/{id}", // URL with parameters
-            { controller = "Home"; action = "Index"; id = UrlParameter.Optional } // Parameter defaults
+            "Home",
+            "",
+            { controller = "Home"; action = "Index"; id = UrlParameter.Optional}
         ) |> ignore
 
     member x.Application_Start() =
+        ModelBinderProviders.BinderProviders.Add(new QrCodeIdModelBinder())
         AreaRegistration.RegisterAllAreas()
         GlobalConfiguration.Configure(Action<_> Global.RegisterWebApi)
         Global.RegisterFilters(GlobalFilters.Filters)

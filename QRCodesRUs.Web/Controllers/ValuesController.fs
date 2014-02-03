@@ -12,6 +12,7 @@ open System.Web.Mvc
 open System.Web.Http.Results
 open System.Net.Http.Headers
 open FSharpx
+open QRCodesRUs.Web
 open QRCodesRUs.Web.Model
 open QRCodesRUs.Web.ViewModels
 open QRCodesRUs.CodeGeneration
@@ -42,9 +43,7 @@ type ImageResult(imageStream: IO.Stream, ?contentType: MediaTypeHeaderValue) =
 type CodesController(repository: QrCodeRepository) =
     inherit ApiController()
     
-    member x.Get() = new OkResult(x)
-
-    member x.Get (id: QrCodeId) : IHttpActionResult =
+    member x.Get ([<ModelBinder(typeof<QrCodeIdModelBinder>)>]id: QrCodeId) : IHttpActionResult =
         repository.GetById id 
      |> Async.map (function
         | Some(imageStream) -> 
