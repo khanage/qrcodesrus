@@ -9,6 +9,7 @@ open QRCodesRUs.Web.Model
 open QRCodesRUs.Web.ViewModels
 open QRCodesRUs.CodeGeneration
 open QRCodesRUs.Web.Model
+open QRCodesRUs.Data
 
 type CodeGenerationController(repository: QrCodeRepository) =
     inherit Controller()
@@ -31,4 +32,5 @@ type CodeGenerationController(repository: QrCodeRepository) =
             
 
     member x.ItemById(id: QrCodeId) =
-        x.View(new QrCodeDisplayViewModel(id)) :> ActionResult
+        let data = ProductRepository.AllProducts()
+        x.View(new QrCodeDisplayViewModel(id, data)) :> ActionResult

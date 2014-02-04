@@ -319,6 +319,11 @@
       <Project>{8d106f3a-5e0e-45d9-8a6e-09d207f0a87e}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\QRCodesRUs.Data\QRCodesRUs.Data.fsproj">
+      <Name>QRCodesRUs.Data</Name>
+      <Project>{0f59b75f-6b8c-4ef3-a7da-69ac70931998}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\QRCodesRUs.Web.Model\QRCodesRUs.Web.Model.fsproj">
       <Name>QRCodesRUs.Web.Model</Name>
       <Project>{372e972a-e0a0-4792-bf5a-a3f22ac39b00}</Project>

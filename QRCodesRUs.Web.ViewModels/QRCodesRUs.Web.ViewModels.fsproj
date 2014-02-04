@@ -49,6 +49,11 @@
     <Compile Include="CodeCreateNewCodeViewModel.fs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QRCodesRUs.Data\QRCodesRUs.Data.fsproj">
+      <Name>QRCodesRUs.Data</Name>
+      <Project>{0f59b75f-6b8c-4ef3-a7da-69ac70931998}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\QRCodesRUs.Web.Model\QRCodesRUs.Web.Model.fsproj">
       <Name>QRCodesRUs.Web.Model</Name>
       <Project>{372e972a-e0a0-4792-bf5a-a3f22ac39b00}</Project>
