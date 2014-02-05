@@ -1,4 +1,30 @@
-﻿<style type="text/css">
+﻿@using QRCodesRUs.Data
+@model PasswordReminder
+
+@using (Html.BeginForm("Index", "Reminder", null, FormMethod.Post, new { role = "form" }))
+{
+    <div class="date-span-selection">
+        Send me a reminder in
+        <span id="date-span-selection-value">@Model.Value</span>
+
+        @Html.TextBoxFor(m => m.Value, 
+            new { id = "date-span-selection-value-input", type = "number" }
+        )
+
+        <span id="date-span-selection-unit">@Model.FormatUnitForDisplay()</span>
+        
+        @Html.DropDownListFor(m => m.Unit,
+            // Todo: push this back into the view models project
+            Model.AllValues.Select(kvp => new SelectListItem { Text = kvp.Value, Value = kvp.Key, Selected = kvp.Value.Equals(Model.Unit, StringComparison.OrdinalIgnoreCase) }),
+            new { id = "date-span-selection-unit-select" }
+        )
+
+        <br />
+        <button type="submit" class="btn btn-default">Save reminder</button>
+    </div>
+}
+
+<style type="text/css">
     .date-span-selection {
         border-left: 3px solid #008080;
         background-color: #eee;
@@ -17,31 +43,12 @@
 
     #date-span-selection-value-input {
         display: none;
-    } 
-    
+    }
+
     #date-span-selection-unit-select {
         display: none;
     }
 </style>
-
-@using (Html.BeginForm("Index", "Reminder", null, FormMethod.Post, new { role = "form" }))
-{
-    <div class="date-span-selection">
-        Send me a reminder in
-        <span id="date-span-selection-value">3</span>
-        <input id="date-span-selection-value-input" type="number" value="3">
-
-        <span id="date-span-selection-unit">months</span>
-        
-        <select id="date-span-selection-unit-select">
-            <option value="Day">days</option>
-            <option selected value="Month">months</option>
-        </select>
-
-        <br />
-        <button type="submit" class="btn btn-default">Save reminder</button>
-    </div>
-}
 
 <script type="text/javascript">
     window.onload = function () {

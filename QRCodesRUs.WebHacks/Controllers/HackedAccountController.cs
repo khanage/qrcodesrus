@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
+using QRCodesRUs.Data;
 using QRCodesRUs.WebHacks.Models;
 
 namespace QRCodesRUs.WebHacks.Controllers
