@@ -1,23 +1,21 @@
-﻿@using QRCodesRUs.Data
-@model PasswordReminder
+﻿@model QRCodesRUs.Web.ViewModels.ReminderViewModel
 
 @using (Html.BeginForm("Index", "Reminder", null, FormMethod.Post, new { role = "form" }))
 {
+    if (Model.HasReminder)
+    {
+        <a href="#">Remove reminder</a>
+    }
+    
     <div class="date-span-selection">
         Send me a reminder in
-        <span id="date-span-selection-value">@Model.Value</span>
+        <span id="date-span-selection-value">@Model.NumericValue</span>
 
-        @Html.TextBoxFor(m => m.Value, 
-            new { id = "date-span-selection-value-input", type = "number" }
-        )
+        @Html.TextBoxFor(m => m.NumericValue, new { id = "date-span-selection-value-input", type = "number" })
 
-        <span id="date-span-selection-unit">@Model.FormatUnitForDisplay()</span>
-        
-        @Html.DropDownListFor(m => m.Unit,
-            // Todo: push this back into the view models project
-            Model.AllValues.Select(kvp => new SelectListItem { Text = kvp.Value, Value = kvp.Key, Selected = kvp.Value.Equals(Model.Unit, StringComparison.OrdinalIgnoreCase) }),
-            new { id = "date-span-selection-unit-select" }
-        )
+        <span id="date-span-selection-unit">@Model.DisplayValueForUnit</span>
+
+        @Html.DropDownListFor(m => m.DateUnit, Model.UnitOptions, new { id = "date-span-selection-unit-select" })
 
         <br />
         <button type="submit" class="btn btn-default">Save reminder</button>
@@ -54,7 +52,7 @@
     window.onload = function () {
         (function ($) {
 
-            var createMappingFunctions = function(displayFieldSelector, editFieldSelector, projectDisplayText) {
+            var createMappingFunctions = function (displayFieldSelector, editFieldSelector, projectDisplayText) {
                 var display = $(displayFieldSelector);
                 var edit = $(editFieldSelector);
 
@@ -67,7 +65,7 @@
                         edit.hide();
                         display.show();
                     },
-                    changeHandler: function(e) {
+                    changeHandler: function (e) {
                         display.text(projectDisplayText(edit));
                     }
                 };
@@ -76,16 +74,16 @@
             var valueEditingFunctions = createMappingFunctions(
                 '#date-span-selection-value',
                 '#date-span-selection-value-input',
-                function(input) {
-                     return input.val();
+                function (input) {
+                    return input.val();
                 }
             );
 
             var unitEditingFunctions = createMappingFunctions(
                 '#date-span-selection-unit',
                 '#date-span-selection-unit-select',
-                function(select) {
-                     return select.find('option:selected').text();
+                function (select) {
+                    return select.find('option:selected').text();
                 }
             );
 

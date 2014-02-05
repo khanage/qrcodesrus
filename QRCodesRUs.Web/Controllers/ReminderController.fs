@@ -10,6 +10,7 @@ open System.Web.Mvc.Ajax
 open Microsoft.AspNet.Identity
 open Microsoft.AspNet.Identity.EntityFramework
 open QRCodesRUs.WebHacks.Models
+open QRCodesRUs.Web.ViewModels
 open FSharpx
 open QRCodesRUs.Web.Model
 open QRCodesRUs.Data
@@ -30,13 +31,15 @@ type ReminderController() =
 
     let reminderOfCurrentUserOrDefault(user: IPrincipal) =
         let currentUser = user.Identity.GetUserId() |> usermanager.FindById 
-        currentUser.Reminder
+        new ReminderViewModel(currentUser.Reminder |> Option.ofNull)
 
-    member x.Index () = x.User |> reminderOfCurrentUserOrDefault |> x.View 
+    member x.Index () = 
+        let thing = reminderOfCurrentUserOrDefault x.User
+        x.View thing
 
     [<HttpPost>]
-    member x.Index (reminder: PasswordReminder) =
+    member x.Index (reminder: ReminderViewModel) =
         let currentUser = x.User.Identity.GetUserId() |> usermanager.FindById 
-        currentUser.Reminder <- reminder
+        currentUser.Reminder <- reminder.AsPasswordReminder()
         let updateResult = usermanager.Update currentUser
         x.View(reminder)

@@ -7,11 +7,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.Web", "QRCodesRU
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.CodeGeneration", "QRCodesRUs.CodeGeneration\QRCodesRUs.CodeGeneration.fsproj", "{8D106F3A-5E0E-45D9-8A6E-09D207F0A87E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DD9B3E9C-5CC2-430F-A946-0FDAC39EF8A2}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.Web.ViewModels", "QRCodesRUs.Web.ViewModels\QRCodesRUs.Web.ViewModels.fsproj", "{40DBAF50-B3EA-4D06-818D-13C6DB10F356}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.Web.Model", "QRCodesRUs.Web.Model\QRCodesRUs.Web.Model.fsproj", "{372E972A-E0A0-4792-BF5A-A3F22AC39B00}"
