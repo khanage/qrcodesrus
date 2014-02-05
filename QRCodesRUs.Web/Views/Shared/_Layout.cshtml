@@ -10,10 +10,11 @@
     <body>
         <div class="container">
             <h3 class="text-muted">QR Codes 'r Us</h3>
+            @Html.Partial("_LoginPartial")
             <ul class="nav nav-justified">
                 <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Code generator", "Index", "CodeGeneration")</li>
-                <li>@Html.ActionLink("Set a reminder", "Index", "Reminder")</li>
+                <li>@if (Request.IsAuthenticated) { @Html.ActionLink("Set a reminder", "Index", "Reminder") }</li>
             </ul>
         </div>
 

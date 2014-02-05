@@ -3,4 +3,12 @@
 <div class="row">
     <h1>Your code</h1>
     <img src="@Url.HttpRouteUrl("Image", new RouteValueDictionary{{"id", @Model.Id.Id.ToString()}})"/>
+    
+    <ul>
+        @foreach (var product in Model.Products)
+        {
+            <li>@product.Name</li>
+        }
+    </ul>
+
 </div>
