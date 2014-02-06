@@ -105,9 +105,11 @@
   </ProjectExtensions>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Extensions.fs" />
     <Compile Include="ModelBinding.fs" />
     <Compile Include="App_Start\NinjectWebCommon.fs" />
     <Compile Include="App_Start\Statup.Auth.fs" />
+    <Compile Include="Application\UserService.fs" />
     <Content Include="Content\Site.css" />
     <None Include="Content\bootstrap-theme.min.css" />
     <None Include="Content\bootstrap-theme.css.map" />
@@ -162,6 +164,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Web.config" />
+    <Compile Include="UserManagerProvider.fs" />
     <Compile Include="Ioc\Bindings.fs" />
     <Content Include="Global.asax" />
     <Compile Include="Global.asax.fs">

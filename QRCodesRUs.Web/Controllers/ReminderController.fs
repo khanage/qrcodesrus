@@ -7,48 +7,31 @@ open System.Web
 open System.Web.Mvc
 open System.Web.Mvc.Ajax
 
+open QRCodesRUs.Web
 open Microsoft.AspNet.Identity
-open Microsoft.AspNet.Identity.EntityFramework
-open QRCodesRUs.WebHacks.Models
 open QRCodesRUs.Web.ViewModels
-open FSharpx
-open QRCodesRUs.Web.Model
-open QRCodesRUs.Data
 
 open System.Security.Principal
 
-module Option =
-    let ofNull<'a when 'a : null> (a: 'a) =
-        match a with 
-        | null -> None
-        | _ -> Some a
-
 [<Authorize>]
-type ReminderController() =
+type ReminderController(userService: UserService) =
     inherit Controller()
 
-    let usermanager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()))
-
     let reminderOfCurrentUserOrDefault(user: IPrincipal) =
-        let currentUser = user.Identity.GetUserId() |> usermanager.FindById 
+        let currentUser = user.Identity.GetUserId() |> userService.LoadUser 
         new ReminderViewModel(currentUser)
 
     member x.Index () = 
-        let thing = reminderOfCurrentUserOrDefault x.User
-        x.View thing
+        let currentUser = x.User.Identity.GetUserId() |> userService.LoadUser
+        ReminderViewModel currentUser |> x.View
 
     [<HttpPost>]
     member x.Index (reminder: ReminderViewModel) =
-        let currentUser = x.User.Identity.GetUserId() |> usermanager.FindById 
-        currentUser.SetReminder <| reminder.AsPasswordReminder()
-
-        let updateResult = usermanager.Update currentUser
+        let currentUser = reminder.AsPasswordReminder() |> userService.CreateReminderFor <| x.User.Identity.GetUserId() 
         let viewModel = new ReminderViewModel(currentUser)
 
         x.View(viewModel)
 
     member x.RemoveReminder() =
-        let currentUser = x.User.Identity.GetUserId() |> usermanager.FindById 
-        currentUser.RemoveReminder()
-        let updateResult = usermanager.Update currentUser
+        x.User.Identity.GetUserId() |> userService.RemoveReminder |> ignore
         x.RedirectToAction("Index")

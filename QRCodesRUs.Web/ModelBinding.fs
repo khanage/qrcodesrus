@@ -6,21 +6,8 @@ open QRCodesRUs.Web.Model
 open QRCodesRUs.Web.ViewModels
 open System.Web.Mvc
 open FSharpx
-
-module Option = 
-    let ofNull =
-        function
-        | null -> None
-        | a -> Some a
-    let whenEmpty (f: unit -> unit) (ma: 'a option): 'a option =
-        match ma with
-        | None -> f()
-        | _ -> ()
-        ma
-
-[<AutoOpen>]
-module Monads =
-    let option = Option.MaybeBuilder()
+open Microsoft.Practices.ServiceLocation
+open System.Web.Routing
 
 type QrCodeIdHttpModelBinder() =
 
@@ -71,9 +58,10 @@ type QrCodeIdModelBinder() =
 
 type PurchaseViewModelBinder() =
     inherit DefaultModelBinder()
-
+    
     override x.CreateModel(controllerContext: ControllerContext, bindingContext: ModelBindingContext, modelType: Type) =
-        
+        let repo = ServiceLocator.Current.GetInstance(typeof<IProductRepository>) :?> IProductRepository
+
         option {
             let shippingCosts = 0.0m
             let rawProductId = bindingContext.ValueProvider.GetValue "productId" 
@@ -87,7 +75,7 @@ type PurchaseViewModelBinder() =
                              |> Option.whenEmpty (fun () -> raise(new Exception(sprintf "Couldn't parse %A" mproductId.AttemptedValue)))
             let! qrCode = mqrId.AttemptedValue |> Option.fromTryPattern Guid.TryParse    
                             |> Option.whenEmpty (fun () -> raise(new Exception(sprintf "Couldn't parse %A" mqrId.AttemptedValue)))
-            let! product = ProductRepository.ProductById productId
+            let! product = repo.ProductById productId
                             |> Option.whenEmpty (fun () -> raise(new Exception(sprintf "Couldn't load product %i" productId)))
 
 

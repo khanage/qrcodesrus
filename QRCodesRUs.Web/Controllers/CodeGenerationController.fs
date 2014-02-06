@@ -10,17 +10,16 @@ open QRCodesRUs.Web.ViewModels
 open QRCodesRUs.CodeGeneration
 open QRCodesRUs.Web.Model
 open QRCodesRUs.Data
+open QRCodesRUs.Web
 
-type CodeGenerationController(repository: QrCodeRepository) =
+type CodeGenerationController(repository: QrCodeRepository, productRepository: IProductRepository) =
     inherit Controller()
     
     let redirectToItemPage (vm: CodeIndexViewModel) =
         let width, height = PageSizeData.dimensionsForSize PageSize.Mid |> Option.get
-
         let id = repository.CreateNew vm.UserCode width height
-        let routeDictionary = new RouteValueDictionary(new Map<_,_> [|"id", id.Id :> obj|])
 
-        RedirectToRouteResult("GetQRCodeById", routeDictionary) :> ActionResult
+        RedirectToRouteResult("GetQRCodeById", Mvc.asRouteValues [|"id", id.Id :> obj|]) :> ActionResult
 
     member x.Index () = x.View(CodeIndexViewModel())
 
@@ -32,5 +31,5 @@ type CodeGenerationController(repository: QrCodeRepository) =
             
 
     member x.ItemById(id: QrCodeId) =
-        let data = ProductRepository.AllProducts()
+        let data = productRepository.AllProducts()
         x.View(new QrCodeDisplayViewModel(id, data)) :> ActionResult

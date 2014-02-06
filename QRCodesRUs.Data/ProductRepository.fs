@@ -6,9 +6,6 @@ open System.ComponentModel.DataAnnotations
 open System.Data.Entity
 open FSharpx
 open System.Linq
-open Microsoft.FSharp.Quotations
-open Microsoft.FSharp.Quotations.Patterns
-open Microsoft.FSharp.Linq.RuntimeHelpers.LeafExpressionConverter
 
 type Category() =
     [<Key>]
@@ -31,7 +28,7 @@ and Product() =
     abstract Category: Category with get, set
     default x.Category with get() = x.category and set v = x.category <- v
 
-type ProductContext() = 
+type internal ProductContext() = 
     inherit DbContext("ProductContext")
     
     do Database.SetInitializer<ProductContext>(new CreateDatabaseIfNotExists<ProductContext>())
@@ -43,7 +40,7 @@ type ProductContext() =
     member public x.Products with get() = x.products and set v = x.products <- v
 
 
-module ProductRepository =
+module internal ProductRepository =
     do use db = new ProductContext()
        if db.Database.CreateIfNotExists() then
            let floorItems = new Category(Name = "Floor items")
@@ -65,7 +62,7 @@ module ProductRepository =
     let AllCategories() =
         use db = new ProductContext()
         let query = query { for category in db.Categories do select category }
-        query.ToListAsync() |> Task.toAsync
+        query |> Seq.toList
 
     let ProductById(id: int) =
         use db = new ProductContext()
@@ -76,3 +73,14 @@ module ProductRepository =
         match query.ToList().ToFSharpList() with
         | [first] -> Some first
         | _ -> None
+
+type IProductRepository =
+    abstract AllProducts: unit -> Product list
+    abstract AllCategories: unit -> Category list
+    abstract ProductById: int -> Product option
+
+type EntityFrameworkProductRepository() =
+    interface IProductRepository with
+        member x.AllProducts() = ProductRepository.AllProducts()
+        member x.AllCategories() = ProductRepository.AllCategories()
+        member x.ProductById id = ProductRepository.ProductById id
