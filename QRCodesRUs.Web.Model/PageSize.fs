@@ -1,8 +1,8 @@
 ﻿namespace QRCodesRUs.Web.Model
 
 type PageSize 
-    = A3 = 3 
-    | A4 = 4
+    = Large = 3 
+    | Mid = 4
 
 [<AutoOpen>]
 module PageSizePatterns =
@@ -10,8 +10,8 @@ module PageSizePatterns =
     
     let (|PageDimensions|_|) (p: PageSize) = 
         match p with
-        | PageSize.A3 -> Some({width = 297; height = 420})
-        | PageSize.A4 -> Some({width = 210; height = 297})
+        | PageSize.Large -> Some({width = 840; height = 840})
+        | PageSize.Mid -> Some({width = 420; height = 420})
         | _  -> None
 
 module PageSizeData =

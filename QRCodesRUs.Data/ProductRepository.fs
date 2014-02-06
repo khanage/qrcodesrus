@@ -1,5 +1,6 @@
 ﻿namespace QRCodesRUs.Data
 
+open System
 open System.Collections.Generic
 open System.ComponentModel.DataAnnotations
 open System.Data.Entity
@@ -7,15 +8,15 @@ open FSharpx
 open System.Linq
 open Microsoft.FSharp.Quotations
 open Microsoft.FSharp.Quotations.Patterns
+open Microsoft.FSharp.Linq.RuntimeHelpers.LeafExpressionConverter
 
 type Category() =
     [<Key>]
     member val CategoryID = -1 with get, set
     member val Name = "" with get, set
-
-    abstract Products: ICollection<Product> with get, set
-
+    
     [<DefaultValue>] val mutable private products: ICollection<Product>
+    abstract Products: ICollection<Product> with get, set
     default x.Products with get() = x.products and set v = x.products <- v
 
 and Product() =
@@ -23,10 +24,11 @@ and Product() =
     member val ProductID = -1 with get, set
     member val Name = "" with get, set
     member val CategoryID = -1 with get, set
-
-    abstract Category: Category with get, set
+    member val ImageName = "" with get, set
+    member val Price = 0.0m with get, set
 
     [<DefaultValue>] val mutable private category: Category
+    abstract Category: Category with get, set
     default x.Category with get() = x.category and set v = x.category <- v
 
 type ProductContext() = 
@@ -49,27 +51,21 @@ module ProductRepository =
       | _ -> failwith "Wrong argument"
 
     do use db = new ProductContext()
-       db.Database.CreateIfNotExists() 
-       |> Option.ofBool 
-       |> Option.iter (fun _ -> 
-           // Hello, world
-           let products = [
-               db.Products.Add(new Product(ProductID = 1, Name = "Doormat", CategoryID = 1))
-               db.Products.Add(new Product(ProductID = 2, Name = "Wallframe", CategoryID = 2))
-           ]
-
-           let categories = [
-               db.Categories.Add(new Category(CategoryID = 1, Name = "Floor items"))
-               db.Categories.Add(new Category(CategoryID = 2, Name = "Printed"))
-           ]
+       if db.Database.CreateIfNotExists() then
+           let floorItems = new Category(Name = "Floor items")
+           let printedItems = new Category(Name = "Printed")
+           [
+               db.Products.Add(new Product(Name = "Doormat", Price = 39.95m, Category = floorItems, ImageName = "doormat.jpg"))
+               db.Products.Add(new Product(Name = "Wallframe", Price = 59.95m, Category = printedItems, ImageName = "photo-frame.jpg"))
+               db.Products.Add(new Product(Name = "Sticker", Price = 9.95m, Category = printedItems, ImageName = "sticker.jpg"))
+           ] |> ignore
 
            db.SaveChanges() |> ignore
-       )
-
 
     let AllProducts() = 
         use db = new ProductContext()
-        let query = query { for product in db.Products do select product } 
+        let query = query { for product in db.Products.Include("Category") do select product } 
+
         query |> Seq.toList
 
     let AllCategories() =
@@ -79,8 +75,9 @@ module ProductRepository =
 
     let FindProducts(predicate: Expr<Product -> bool>) =
         use db = new ProductContext()
-        let query = <@ query { for product in db.Products do
+        let query = <@ query { for product in db.Products.Include("Category") do
                                 where ((%predicate) product)
                                 select product } @> 
                  |> runQuery
-        query.ToListAsync() |> Task.toAsync
+
+        query.ToListAsync() |> Task.toAsync 

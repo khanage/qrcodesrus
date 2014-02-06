@@ -14,7 +14,7 @@
             <ul class="nav nav-justified">
                 <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("Code generator", "Index", "CodeGeneration")</li>
-                <li>@if (Request.IsAuthenticated) { @Html.ActionLink("Set a reminder", "Index", "Reminder") }</li>
+                <li>@Html.ActionLink("Set a reminder", "Index", "Reminder")</li>
             </ul>
         </div>
 
@@ -28,6 +28,7 @@
 
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/app")
         @RenderSection("scripts", required: false)
     </body>
 </html>

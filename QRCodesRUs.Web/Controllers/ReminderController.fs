@@ -31,7 +31,7 @@ type ReminderController() =
 
     let reminderOfCurrentUserOrDefault(user: IPrincipal) =
         let currentUser = user.Identity.GetUserId() |> usermanager.FindById 
-        new ReminderViewModel(currentUser.Reminder |> Option.ofNull)
+        new ReminderViewModel(currentUser)
 
     member x.Index () = 
         let thing = reminderOfCurrentUserOrDefault x.User
@@ -40,6 +40,15 @@ type ReminderController() =
     [<HttpPost>]
     member x.Index (reminder: ReminderViewModel) =
         let currentUser = x.User.Identity.GetUserId() |> usermanager.FindById 
-        currentUser.Reminder <- reminder.AsPasswordReminder()
+        currentUser.SetReminder <| reminder.AsPasswordReminder()
+
         let updateResult = usermanager.Update currentUser
-        x.View(reminder)
+        let viewModel = new ReminderViewModel(currentUser)
+
+        x.View(viewModel)
+
+    member x.RemoveReminder() =
+        let currentUser = x.User.Identity.GetUserId() |> usermanager.FindById 
+        currentUser.RemoveReminder()
+        let updateResult = usermanager.Update currentUser
+        x.RedirectToAction("Index")

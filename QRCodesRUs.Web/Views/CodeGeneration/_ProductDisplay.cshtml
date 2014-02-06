@@ -1,0 +1,12 @@
+﻿@model QRCodesRUs.Data.Product
+      
+<span class="col-xs-4 text-center">
+    @Model.Name (@Model.Category.Name)
+
+    <a href="@Url.Action("Purchase", new { productId = Model.ProductID })" class="btn btn-default">
+        Order ($@Model.Price)
+    </a>
+
+    <img src="@Url.Content("~/Content/" + Model.ImageName)" alt="Image of @Model.Name" />
+
+</span>     

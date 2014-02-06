@@ -1,0 +1,23 @@
+﻿.date-span-selection {
+    border-left: 3px solid #008080;
+    background-color: #eee;
+    font-size: x-large;
+}
+
+#date-span-selection-value {
+    background-color: greenyellow;
+    border-bottom: 1px solid blue;
+}
+
+#date-span-selection-unit {
+    background-color: beige;
+    border-bottom: 1px solid blue;
+}
+
+#date-span-selection-value-input {
+    display: none;
+}
+
+#date-span-selection-unit-select {
+    display: none;
+}

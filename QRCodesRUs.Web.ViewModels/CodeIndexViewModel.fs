@@ -4,6 +4,7 @@ open System
 open System.ComponentModel.DataAnnotations
 open System.Web.Mvc
 open QRCodesRUs.Web.Model
+open System.Web.Routing
 open QRCodesRUs.Data
 
 type CodeIndexViewModel() =

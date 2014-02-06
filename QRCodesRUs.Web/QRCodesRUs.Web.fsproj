@@ -75,7 +75,7 @@
       </FlavorProperties>
       <FlavorProperties Guid="{349c5851-65df-11da-9384-00065b846f21}" User="">
         <WebProjectProperties>
-          <StartPageUrl>Reminder</StartPageUrl>
+          <StartPageUrl>CodeGeneration</StartPageUrl>
           <StartAction>SpecificPage</StartAction>
           <AspNetDebugging>True</AspNetDebugging>
           <SilverlightDebugging>False</SilverlightDebugging>
@@ -115,15 +115,26 @@
     <None Include="Content\bootstrap.min.css" />
     <None Include="Content\bootstrap.css.map" />
     <None Include="Content\bootstrap.css" />
+    <Content Include="Content\doormat.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\photo-frame.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Content\Reminder.css" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Content\sticker.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-2.1.0.min.map" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
+    <Content Include="Scripts\ReminderFluentInterface.js" />
     <Compile Include="Controllers\HomeController.fs" />
     <Compile Include="Controllers\QrCodeController.fs" />
     <Compile Include="Controllers\CodeGenerationController.fs" />
@@ -140,6 +151,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\CodeGeneration\Index.cshtml" />
     <Content Include="Views\CodeGeneration\ItemById.cshtml" />
+    <None Include="Views\CodeGeneration\_ProductDisplay.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Reminder\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

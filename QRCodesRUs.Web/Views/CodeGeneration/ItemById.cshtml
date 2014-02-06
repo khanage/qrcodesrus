@@ -1,14 +1,27 @@
 @model QRCodesRUs.Web.ViewModels.QrCodeDisplayViewModel
-
-<div class="row">
-    <h1>Your code</h1>
-    <img src="@Url.HttpRouteUrl("Image", new RouteValueDictionary{{"id", @Model.Id.Id.ToString()}})"/>
+@{
     
-    <ul>
+    var imageUrl = Url.HttpRouteUrl("Image", new RouteValueDictionary { { "id", @Model.Id.Id.ToString() }});
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <span class="h1 col-md-8">Your code</span>
+        <span class="col-md-4 text-center">
+            <a href="@imageUrl">Print</a>
+        </span>
+    </div>
+    
+    <div class="row">
+        <span class="col-md-4 col-md-offset-4">
+            <img src="@imageUrl" alt="QR code image" />
+        </span>
+    </div>
+    
+    <div class="row">
         @foreach (var product in Model.Products)
         {
-            <li>@product.Name</li>
+            Html.RenderPartial("_ProductDisplay", product);
         }
-    </ul>
-
+    </div>
 </div>

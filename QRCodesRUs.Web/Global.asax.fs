@@ -29,8 +29,11 @@ type BundleConfig() =
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/respond.js"))
 
+        bundles.Add(ScriptBundle("~/bundles/app").Include([|"~/Scripts/ReminderFluentInterface.js"|]))
+
         bundles.Add(StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.css",
+                        "~/Content/Reminder.css",
                         "~/Content/site.css"))
 
 /// Route for ASP.NET MVC applications
