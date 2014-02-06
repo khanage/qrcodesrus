@@ -3,7 +3,7 @@
 <span class="col-xs-4 text-center">
     @Model.Name (@Model.Category.Name)
 
-    <a href="@Url.Action("Purchase", new { productId = Model.ProductID })" class="btn btn-default">
+    <a href="@Url.Action("Index", "Purchase", new { productId = Model.ProductID, qrCodeId = Guid.NewGuid() })" class="btn btn-default">
         Order ($@Model.Price)
     </a>
 

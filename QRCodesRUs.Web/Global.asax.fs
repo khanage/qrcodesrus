@@ -29,6 +29,10 @@ type BundleConfig() =
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/respond.js"))
 
+        bundles.Add(ScriptBundle("~/bundles/validation").Include(
+                        "~/Scripts/jquery.validate.min.js",
+                        "~/Scripts/jquery.validate.unobtrusive.min.js"))
+
         bundles.Add(ScriptBundle("~/bundles/app").Include([|"~/Scripts/ReminderFluentInterface.js"|]))
 
         bundles.Add(StyleBundle("~/Content/css").Include(
@@ -118,6 +122,8 @@ type Global() =
 
     member x.Application_Start() =
         ModelBinderProviders.BinderProviders.Add(new QrCodeIdModelBinder())
+        ModelBinderProviders.BinderProviders.Add(new PurchaseViewModelBinder())
+
         AreaRegistration.RegisterAllAreas()
         GlobalConfiguration.Configure(Action<_> Global.RegisterWebApi)
         Global.RegisterFilters(GlobalFilters.Filters)

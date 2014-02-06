@@ -54,6 +54,7 @@
     <Compile Include="ReminderViewModel.fs" />
     <None Include="packages.config" />
     <None Include="app.config" />
+    <Compile Include="PurchaseViewModel.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharpx.Core">

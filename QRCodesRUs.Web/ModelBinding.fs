@@ -1,7 +1,9 @@
 ﻿namespace QRCodesRUs.Web    
 
 open System
+open QRCodesRUs.Data
 open QRCodesRUs.Web.Model
+open QRCodesRUs.Web.ViewModels
 open System.Web.Mvc
 open FSharpx
 
@@ -10,6 +12,11 @@ module Option =
         function
         | null -> None
         | a -> Some a
+    let whenEmpty (f: unit -> unit) (ma: 'a option): 'a option =
+        match ma with
+        | None -> f()
+        | _ -> ()
+        ma
 
 [<AutoOpen>]
 module Monads =
@@ -59,6 +66,37 @@ type QrCodeIdModelBinder() =
     interface IModelBinderProvider with
         member x.GetBinder(t: Type) =
             if typeof<QrCodeId>.IsAssignableFrom(t) 
+            then x :> IModelBinder 
+            else null
+
+type PurchaseViewModelBinder() =
+    inherit DefaultModelBinder()
+
+    override x.CreateModel(controllerContext: ControllerContext, bindingContext: ModelBindingContext, modelType: Type) =
+        
+        option {
+            let shippingCosts = 0.0m
+            let rawProductId = bindingContext.ValueProvider.GetValue "productId" 
+            let rawQrCode = bindingContext.ValueProvider.GetValue "qrCodeId"
+        
+
+            let! mproductId = rawProductId |> Option.ofNull |> Option.whenEmpty (fun() -> raise(new Exception(sprintf "%A was null" rawProductId)))
+            let! mqrId = rawQrCode |> Option.ofNull |> Option.whenEmpty (fun () -> raise(new Exception(sprintf "%A was null" rawQrCode)))
+
+            let! productId = mproductId.AttemptedValue |> Option.fromTryPattern Int32.TryParse
+                             |> Option.whenEmpty (fun () -> raise(new Exception(sprintf "Couldn't parse %A" mproductId.AttemptedValue)))
+            let! qrCode = mqrId.AttemptedValue |> Option.fromTryPattern Guid.TryParse    
+                            |> Option.whenEmpty (fun () -> raise(new Exception(sprintf "Couldn't parse %A" mqrId.AttemptedValue)))
+            let! product = ProductRepository.ProductById productId
+                            |> Option.whenEmpty (fun () -> raise(new Exception(sprintf "Couldn't load product %i" productId)))
+
+
+            return new PurchaseViewModel(product, qrCode, shippingCosts) :> obj
+        } |> Option.getOrElseF (fun () -> raise(new Exception(sprintf "Failed to bind model")))
+
+    interface IModelBinderProvider with
+        member x.GetBinder(t: Type) =
+            if typeof<PurchaseViewModel>.IsAssignableFrom(t) 
             then x :> IModelBinder 
             else null
 

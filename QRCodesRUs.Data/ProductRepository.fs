@@ -44,12 +44,6 @@ type ProductContext() =
 
 
 module ProductRepository =
-    let private runQuery (q:Expr<IQueryable<'T>>) = 
-      match q with
-      | Application(Lambda(builder, Call(Some builder2, miRun, [Quote body])), queryObj) ->
-          query.Run(Expr.Cast<Microsoft.FSharp.Linq.QuerySource<'T, IQueryable>>(body))
-      | _ -> failwith "Wrong argument"
-
     do use db = new ProductContext()
        if db.Database.CreateIfNotExists() then
            let floorItems = new Category(Name = "Floor items")
@@ -73,11 +67,12 @@ module ProductRepository =
         let query = query { for category in db.Categories do select category }
         query.ToListAsync() |> Task.toAsync
 
-    let FindProducts(predicate: Expr<Product -> bool>) =
+    let ProductById(id: int) =
         use db = new ProductContext()
-        let query = <@ query { for product in db.Products.Include("Category") do
-                                where ((%predicate) product)
-                                select product } @> 
-                 |> runQuery
+        let query = query { for product in db.Products.Include("Category") do
+                            where (product.ProductID = id)
+                            select product }
 
-        query.ToListAsync() |> Task.toAsync 
+        match query.ToList().ToFSharpList() with
+        | [first] -> Some first
+        | _ -> None

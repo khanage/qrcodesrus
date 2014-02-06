@@ -1,0 +1,46 @@
+﻿@model QRCodesRUs.Web.ViewModels.PurchaseViewModel
+           
+<div class="container-fluid">
+    <div class="col-md-8">
+        <div class="container-fluid">
+            <div class="row">
+                <span class="col-md-4">
+                    <img src="@Url.Content("~/content/" + Model.ProductImage)" alt="Image for @Model.ProductImage"/>
+                </span>
+                <p class="col-md-8">
+                    blah blah blah
+                </p>
+            </div>
+            <div class="row">
+                @using (Html.BeginForm("Index", "Purchase", new { productId = Model.ProductId, qrCodeId = Model.QrCodeId}, FormMethod.Post, new { role = "form", @class="form-horizontal"}))
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CreditCardNumber, "Credit card number", new { @class = "control-label col-md-4" })
+                        @Html.EditorFor(m => m.CreditCardNumber, new { @class = "form-control col-md-8" })
+                        @Html.ValidationMessageFor(m => m.CreditCardNumber)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CardholderName, "Cardholder name", new { @class = "control-label col-md-4" })
+                        @Html.EditorFor(m => m.CardholderName, new { @class = "form-control col-md-8" })
+                        @Html.ValidationMessageFor(m => m.CardholderName)
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Enter expiry</label>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.ExpiryMonth, new { size = 2 })
+                            @Html.TextBoxFor(m => m.ExpiryYear, new { size = 4 })
+                            @Html.ValidationMessageFor(m => m.ExpiryMonth)
+                            @Html.ValidationMessageFor(m => m.ExpiryYear)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default" name="Purchase">Purchase</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <span class="col-md-4">
+        ads
+    </span>
+</div>
