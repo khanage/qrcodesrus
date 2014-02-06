@@ -60,7 +60,7 @@ type PurchaseViewModelBinder() =
     inherit DefaultModelBinder()
     
     override x.CreateModel(controllerContext: ControllerContext, bindingContext: ModelBindingContext, modelType: Type) =
-        let repo = ServiceLocator.Current.GetInstance(typeof<IProductRepository>) :?> IProductRepository
+        let repo = ServiceLocator.Current.GetInstance(typeof<ProductRepository>) :?> ProductRepository
 
         option {
             let shippingCosts = 0.0m

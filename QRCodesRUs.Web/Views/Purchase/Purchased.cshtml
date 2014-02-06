@@ -1,1 +1,9 @@
-﻿Bought your stuff yo
+﻿@model QRCodesRUs.Web.ViewModels.OrderDetailsViewModel
+
+<p>
+    Your item is on it's way
+</p>
+
+<p>
+    ETA: @Model.DueTime.Date.ToShortDateString()
+</p>

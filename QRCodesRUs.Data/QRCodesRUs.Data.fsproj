@@ -64,7 +64,10 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProductContext.fs" />
+    <Compile Include="OrderContext.fs" />
     <Compile Include="ProductRepository.fs" />
+    <Compile Include="OrderRepository.fs" />
     <Compile Include="IdentityModels.fs" />
     <None Include="Script.fsx" />
     <None Include="App.config" />

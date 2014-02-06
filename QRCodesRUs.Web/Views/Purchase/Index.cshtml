@@ -11,6 +11,9 @@
                     blah blah blah
                 </p>
             </div>
+            <pre>
+                Use this for testing: 4239323232323232
+            </pre>
             <div class="row">
                 @using (Html.BeginForm("Index", "Purchase", new { productId = Model.ProductId, qrCodeId = Model.QrCodeId}, FormMethod.Post, new { role = "form", @class="form-horizontal"}))
                 {
@@ -33,6 +36,12 @@
                             @Html.ValidationMessageFor(m => m.ExpiryYear)
                         </div>
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Address, "Your address", new { @class = "control-label col-md-4" })
+                        @Html.TextAreaFor(m => m.Address, new { @class = "form-control col-md-8" })
+                        @Html.ValidationMessageFor(m => m.Address)
+                    </div>
+                    
                     <div class="form-group">
                         <button type="submit" class="btn btn-default" name="Purchase">Purchase</button>
                     </div>

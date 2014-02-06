@@ -17,10 +17,6 @@ open System.Security.Principal
 type ReminderController(userService: UserService) =
     inherit Controller()
 
-    let reminderOfCurrentUserOrDefault(user: IPrincipal) =
-        let currentUser = user.Identity.GetUserId() |> userService.LoadUser 
-        new ReminderViewModel(currentUser)
-
     member x.Index () = 
         let currentUser = x.User.Identity.GetUserId() |> userService.LoadUser
         ReminderViewModel currentUser |> x.View

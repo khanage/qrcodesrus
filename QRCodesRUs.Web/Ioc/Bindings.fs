@@ -18,7 +18,9 @@ type Bindings() =
     override x.Load() =
         x.Kernel.Bind<QrCodeCreator>().To<QrCodeCreatorImplementation>()
         x.Kernel.Bind<QrCodeRepository>().To<InMemoryQrCodeRepository>().InSingletonScope()
-        x.Kernel.Bind<IProductRepository>().To<EntityFrameworkProductRepository>().InSingletonScope()
+        x.Kernel.Bind<ProductRepository>().To<EntityFrameworkProductRepository>().InSingletonScope()
         x.Kernel.Bind<UserManager<ApplicationUser>>().ToProvider<UserManagerProvider>().InSingletonScope()
+        x.Kernel.Bind<OrderRepository>().To<EntityFrameworkOrderRepository>().InSingletonScope()
+        x.Kernel.Bind<PaymentService>().To<DummyPaymentService>().InSingletonScope()
         ()
 

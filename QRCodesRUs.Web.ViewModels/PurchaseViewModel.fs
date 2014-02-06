@@ -2,6 +2,7 @@
 
 open System
 open QRCodesRUs.Data
+open QRCodesRUs.Web.Model
 open System.ComponentModel.DataAnnotations
 
 type PurchaseViewModel(product: Product, qrCodeId: Guid, shippingCost: decimal) =
@@ -31,3 +32,14 @@ type PurchaseViewModel(product: Product, qrCodeId: Guid, shippingCost: decimal) 
     [<Required>]
     [<Range(14,20)>]
     member val ExpiryYear = new Nullable<int>() with get, set
+
+    [<Required>]
+    member val Address = "" with get, set
+
+    member x.AsPurchase(userId: string, total: decimal, address: string) = 
+        let cardDetails = new CardDetails(x.CreditCardNumber, x.CardholderName, new DateTime(2000 + x.ExpiryYear.Value, x.ExpiryMonth.Value, 1))
+        new PurchaseRequest( userId
+                           , cardDetails
+                           , total
+                           , x.ProductId
+                           , address)

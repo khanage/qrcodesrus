@@ -110,6 +110,8 @@
     <Compile Include="App_Start\NinjectWebCommon.fs" />
     <Compile Include="App_Start\Statup.Auth.fs" />
     <Compile Include="Application\UserService.fs" />
+    <Compile Include="PaymentService.fs" />
+    <Compile Include="OrderService.fs" />
     <Content Include="Content\Site.css" />
     <None Include="Content\bootstrap-theme.min.css" />
     <None Include="Content\bootstrap-theme.css.map" />

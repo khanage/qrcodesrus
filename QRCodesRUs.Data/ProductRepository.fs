@@ -1,50 +1,15 @@
 ﻿namespace QRCodesRUs.Data
 
-open System
-open System.Collections.Generic
-open System.ComponentModel.DataAnnotations
-open System.Data.Entity
 open FSharpx
+open System.Data.Entity
 open System.Linq
 
-type Category() =
-    [<Key>]
-    member val CategoryID = -1 with get, set
-    member val Name = "" with get, set
-    
-    [<DefaultValue>] val mutable private products: ICollection<Product>
-    abstract Products: ICollection<Product> with get, set
-    default x.Products with get() = x.products and set v = x.products <- v
-
-and Product() =
-    [<Key>]
-    member val ProductID = -1 with get, set
-    member val Name = "" with get, set
-    member val CategoryID = -1 with get, set
-    member val ImageName = "" with get, set
-    member val Price = 0.0m with get, set
-
-    [<DefaultValue>] val mutable private category: Category
-    abstract Category: Category with get, set
-    default x.Category with get() = x.category and set v = x.category <- v
-
-type internal ProductContext() = 
-    inherit DbContext("ProductContext")
-    
-    do Database.SetInitializer<ProductContext>(new CreateDatabaseIfNotExists<ProductContext>())
-
-    [<DefaultValue>] val mutable categories: IDbSet<Category>
-    member public x.Categories with get() = x.categories and set v = x.categories <- v
-
-    [<DefaultValue>] val mutable products: IDbSet<Product>
-    member public x.Products with get() = x.products and set v = x.products <- v
-
-
-module internal ProductRepository =
+module internal ProductRepositoryModule =
     do use db = new ProductContext()
        if db.Database.CreateIfNotExists() then
            let floorItems = new Category(Name = "Floor items")
            let printedItems = new Category(Name = "Printed")
+
            [
                db.Products.Add(new Product(Name = "Doormat", Price = 39.95m, Category = floorItems, ImageName = "doormat.jpg"))
                db.Products.Add(new Product(Name = "Wallframe", Price = 59.95m, Category = printedItems, ImageName = "photo-frame.jpg"))
@@ -74,13 +39,13 @@ module internal ProductRepository =
         | [first] -> Some first
         | _ -> None
 
-type IProductRepository =
+type ProductRepository =
     abstract AllProducts: unit -> Product list
     abstract AllCategories: unit -> Category list
     abstract ProductById: int -> Product option
 
 type EntityFrameworkProductRepository() =
-    interface IProductRepository with
-        member x.AllProducts() = ProductRepository.AllProducts()
-        member x.AllCategories() = ProductRepository.AllCategories()
-        member x.ProductById id = ProductRepository.ProductById id
+    interface ProductRepository with
+        member x.AllProducts() = ProductRepositoryModule.AllProducts()
+        member x.AllCategories() = ProductRepositoryModule.AllCategories()
+        member x.ProductById id = ProductRepositoryModule.ProductById id

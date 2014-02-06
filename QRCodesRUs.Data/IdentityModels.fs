@@ -4,6 +4,7 @@ open FSharpx
 open System
 open Microsoft.AspNet.Identity.EntityFramework
 open System.Collections.Generic
+open System.Data.Entity
 
 type PasswordReminder(numericValue: int, dateUnit: string) =    
     static member private PossibleValues : IDictionary<string,string> = 
@@ -39,5 +40,8 @@ type ApplicationUser() =
         x.DateUnit <- null
 
 type ApplicationDbContext() =
-    inherit IdentityDbContext<ApplicationUser>("DefaultConnection")
+    inherit IdentityDbContext<ApplicationUser>("AuthenticationContext")
+
+    do Database.SetInitializer<ApplicationDbContext>(new CreateDatabaseIfNotExists<ApplicationDbContext>())
+
     do ()

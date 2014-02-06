@@ -52,9 +52,10 @@
     <Compile Include="CodeIndexViewModel.fs" />
     <Compile Include="CodeCreateNewCodeViewModel.fs" />
     <Compile Include="ReminderViewModel.fs" />
+    <Compile Include="PurchaseViewModel.fs" />
+    <Compile Include="OrderDetailsViewModel.fs" />
     <None Include="packages.config" />
     <None Include="app.config" />
-    <Compile Include="PurchaseViewModel.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharpx.Core">

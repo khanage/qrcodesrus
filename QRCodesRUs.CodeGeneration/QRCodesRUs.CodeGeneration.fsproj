@@ -67,6 +67,7 @@
     <Compile Include="QrCodeRepository.fs" />
     <None Include="zxing.fsx" />
     <None Include="packages.config" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QRCodesRUs.Core\QRCodesRUs.Core.fsproj">
