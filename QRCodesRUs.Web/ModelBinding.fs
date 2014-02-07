@@ -30,8 +30,6 @@ type QrCodeIdHttpModelBinder() =
 
 type QrCodeIdModelBinder() = 
     inherit DefaultModelBinder()
-
-    let option = Option.MaybeBuilder()
         
     member x.BindInBase(controllerContext: ControllerContext, bindingContext: ModelBindingContext) =
         base.BindModel(controllerContext, bindingContext)
