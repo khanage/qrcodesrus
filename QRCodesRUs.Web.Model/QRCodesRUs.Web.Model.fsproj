@@ -53,6 +53,8 @@
     <Compile Include="QrCodeId.fs" />
     <Compile Include="ImageResult.fs" />
     <Compile Include="PurchaseRequest.fs" />
+    <Compile Include="TaskExtensions.fs" />
+    <Compile Include="Extensions.fs" />
     <None Include="packages.config" />
     <None Include="app.config" />
   </ItemGroup>

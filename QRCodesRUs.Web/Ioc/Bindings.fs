@@ -7,7 +7,6 @@ namespace QRCodesRUs.Web
 open QRCodesRUs.Web.Model
 open QRCodesRUs.Web.Controllers
 open QRCodesRUs.CodeGeneration
-open QRCodesRUs.WebHacks.Models
 open QRCodesRUs.Data
 open Microsoft.AspNet.Identity
         

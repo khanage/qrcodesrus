@@ -69,8 +69,6 @@
     <Compile Include="ProductRepository.fs" />
     <Compile Include="OrderRepository.fs" />
     <Compile Include="IdentityModels.fs" />
-    <None Include="Script.fsx" />
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>

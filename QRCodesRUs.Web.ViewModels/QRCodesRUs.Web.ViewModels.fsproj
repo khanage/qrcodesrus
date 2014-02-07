@@ -54,6 +54,7 @@
     <Compile Include="ReminderViewModel.fs" />
     <Compile Include="PurchaseViewModel.fs" />
     <Compile Include="OrderDetailsViewModel.fs" />
+    <Compile Include="AccountViewModel.fs" />
     <None Include="packages.config" />
     <None Include="app.config" />
   </ItemGroup>

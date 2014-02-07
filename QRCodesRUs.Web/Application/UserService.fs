@@ -2,7 +2,6 @@
 
 open System.Security.Principal
 open Microsoft.AspNet.Identity
-open QRCodesRUs.WebHacks.Models
 open QRCodesRUs.Data
 
 type UserService(userManager: UserManager<ApplicationUser>) =
