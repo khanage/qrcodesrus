@@ -15,8 +15,6 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "QRCodesRUs.Data", "QRCodesR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRCodesRUs.WebHacks", "QRCodesRUs.WebHacks\QRCodesRUs.WebHacks.csproj", "{3D314808-BA8D-4611-9729-F7F676E9B92F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{0E3BC1DF-71B1-4ACC-AAC5-A999DD7B67DF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{3D314808-BA8D-4611-9729-F7F676E9B92F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D314808-BA8D-4611-9729-F7F676E9B92F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D314808-BA8D-4611-9729-F7F676E9B92F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E3BC1DF-71B1-4ACC-AAC5-A999DD7B67DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E3BC1DF-71B1-4ACC-AAC5-A999DD7B67DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E3BC1DF-71B1-4ACC-AAC5-A999DD7B67DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E3BC1DF-71B1-4ACC-AAC5-A999DD7B67DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
